@@ -1,0 +1,34 @@
+diff --git a/src/com/android/camera/dcim/DCIMHelper.java b/src/com/android/camera/dcim/DCIMHelper.java
+index 17f1450..5111970 100644
+--- a/src/com/android/camera/dcim/DCIMHelper.java
++++ b/src/com/android/camera/dcim/DCIMHelper.java
+@@ -60,6 +60,7 @@ public class DCIMHelper {
+ 	private static DCIMDirectoryFileFilter dcimDirectoryFileFilter = new DCIMDirectoryFileFilter();
+ 	private static DCIMDirectoryComparator dcimDirectoryComparator = new DCIMDirectoryComparator();
+ 	private static DCIMImageFileFilter dcimImageFileFilter = new DCIMImageFileFilter();
++	private static DCIMImageComparator dcimImageComparator = new DCIMImageComparator();
+ 
+ 	private static NumberFormat nfDirectory;
+ 	private static NumberFormat nfFile;
+@@ -162,7 +163,7 @@ public class DCIMHelper {
+ 			return prefix + "0001";
+ 		}
+ 		List<File> filesList = Arrays.asList(files);
+-		Collections.sort(filesList);
++		Collections.sort(filesList, dcimImageComparator);
+ 		File lastFile = filesList.get(files.length - 1);
+ 		int nnnn = Integer.parseInt(lastFile.getName().substring(4, 8));
+ 		if (nnnn >= 9999) {
+@@ -215,6 +216,12 @@ public class DCIMHelper {
+ 		}
+ 	}
+ 
++	private static class DCIMImageComparator implements Comparator<File> {
++		public int compare(File file1, File file2) {
++			return file1.getName().substring(4, 8).compareTo(file2.getName().substring(4, 8));
++		}
++	}
++
+ 	/**
+ 	 * Scans the "/DCIM/Camera" directory renaming files into a proper DCIM
+ 	 * structure.
