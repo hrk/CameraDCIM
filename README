@@ -1,0 +1,27 @@
+Do you hate when iPhoto won't show the pictures you shot with your Android device, but it works fine with your friend's HTC Sense device? Why would that be?!?
+
+That's simply because Google's camera does not comply with the DCIM standard [1], used by every other Digital Camera in the world (and HTC Sense does too!)
+
+With this app, your Android device will be able to.
+
+FEATURES:
+- DCIM compliant digital camera
+- Full Gingerbread Camera, as of latest source code (Android 2.3.5)
+- Camera DCIM can be installed together with the official Android Camera, no overlapping issues!
+- Camcorder app has been unhidden and can be choosen from the application launcher
+- Support for Windows, Linux and Mac OS X hosts (don't worry about Thumbds.db, ._IMG0001.jpg files and so on!)
+- "Automagically" converts existing picture files in Camera dir to the DCIM naming.
+
+SOURCE CODE:
+Google has been notified of this issue on June 2009 [2] but has ignored it.
+I've submitted a fix for the officla Android Camera on July 9th, 2011 [3] with no reply. If you are able to build your own ROM, I welcome you to download the fix and apply it to your source code! HTC has built a DCIM compliant camera, after all.
+
+The original fix (using com.android.camera package) can be found in the three dcim-compliant-[1-3].patch files. As a sidenote, dcim-compliant-2.patch must be considered revered (-R) to work. Sorry for the confusion. :)
+
+All the modified source code (in addition to the original fix) is available online to whoever wishes to check it out [4]
+
+[1] http://en.wikipedia.org/wiki/Design_rule_for_Camera_File_system
+[2] http://code.google.com/p/android/issues/detail?id=2960
+[3] http://code.google.com/p/android/issues/detail?id=2960#c26
+[4] https://github.com/hrkdroid/CameraDCIM
+
