@@ -1015,8 +1015,13 @@ public class VideoCamera extends NoSearchActivity
                 rotation = (info.orientation + mOrientation) % 360;
             }
         }
-        mMediaRecorder.setOrientationHint(rotation);
-        mOrientationHint = rotation;
+        try {
+            mMediaRecorder.setOrientationHint(rotation);
+            mOrientationHint = rotation;
+        } catch (RuntimeException e) {
+            /* FIXME: reported by Samsung Infuse 4G */
+            Log.e(TAG, "setOrientationHint(rotation) failed w/ " + e.getMessage());
+        }
 
         try {
             mMediaRecorder.prepare();
