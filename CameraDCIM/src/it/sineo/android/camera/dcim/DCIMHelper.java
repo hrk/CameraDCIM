@@ -245,6 +245,10 @@ public class DCIMHelper {
 				newName = getNameForNewImage() + ".jpg";
 			} else if (name.endsWith("3gp")) {
 				newName = getNameForNewVideo() + ".3gp";
+			} else if (name.endsWith("mp4")) {
+				newName = getNameForNewVideo() + ".mp4";
+			} else if (name.endsWith("m4v")) {
+				newName = getNameForNewVideo() + ".m4v";
 			} else {
 				continue;
 			}
