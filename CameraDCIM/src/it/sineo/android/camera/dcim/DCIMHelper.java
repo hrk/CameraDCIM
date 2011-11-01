@@ -78,7 +78,9 @@ public class DCIMHelper {
 		 */
 		File firstDir = new File(dcimPath, "100ANDRO");
 		if (!firstDir.exists()) {
-			firstDir.mkdirs();
+			if (!firstDir.mkdirs()) {
+				Log.e(TAG, "Unable to create first firectory.");
+			}
 		}
 	}
 
@@ -97,8 +99,13 @@ public class DCIMHelper {
 				List<File> dirsList = Arrays.asList(dirs);
 				Collections.sort(dirsList, dcimDirectoryComparator);
 				currentDir = dirsList.get(dirs.length - 1);
-			} else {
+			} else if (dirs.length == 1) {
 				currentDir = dirs[0];
+			} else {
+				currentDir = new File(dcimDirectory, "100ANDRO");
+				if (!currentDir.exists()) {
+					currentDir.mkdirs();
+				}
 			}
 		}
 		return currentDir.getAbsolutePath();
