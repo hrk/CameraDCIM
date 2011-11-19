@@ -52,7 +52,7 @@ public class DCIMHelper {
 	 */
 	private final static int MAX_IMAGES_PER_DIRECTORY = 254;
 
-	private static String dcimPath = Environment.getExternalStorageDirectory().toString() + "/DCIM/";
+	private static File dcimDirectory = null;
 
 	private static DCIMDirectoryFileFilter dcimDirectoryFileFilter = new DCIMDirectoryFileFilter();
 	private static DCIMDirectoryComparator dcimDirectoryComparator = new DCIMDirectoryComparator();
@@ -74,9 +74,19 @@ public class DCIMHelper {
 		nfFile.setMaximumIntegerDigits(4);
 
 		/*
+		 * Fix issue with (stupid) LG phones using /mnt/sdcard/_externalSD
+		 */
+		File sdcard = Environment.getExternalStorageDirectory();
+		File _externalSD = new File(sdcard, "_externalSD");
+		if (_externalSD.exists()) {
+			sdcard = _externalSD;
+		}
+		dcimDirectory = new File(sdcard, "DCIM");
+
+		/*
 		 * Ensure that the first directory exists. Makes remaining code simpler.
 		 */
-		File firstDir = new File(dcimPath, "100ANDRO");
+		File firstDir = new File(dcimDirectory, "100ANDRO");
 		if (!firstDir.exists()) {
 			if (!firstDir.mkdirs()) {
 				Log.e(TAG, "Unable to create first firectory.");
@@ -92,7 +102,6 @@ public class DCIMHelper {
 	 * @return the full path, DCIM-compliant (NNNAAAAA)
 	 */
 	public static String getCurrentDirectory() {
-		File dcimDirectory = new File(dcimPath);
 		if (currentDir == null) {
 			File[] dirs = dcimDirectory.listFiles(dcimDirectoryFileFilter);
 			if (dirs.length > 1) {
@@ -185,7 +194,7 @@ public class DCIMHelper {
 		int nnn = Integer.parseInt(currentDir.getName().substring(0, 3));
 		if (nnn < 999) {
 			nnn++;
-			File newDir = new File(dcimPath, nfDirectory.format(nnn) + "ANDRO");
+			File newDir = new File(dcimDirectory, nfDirectory.format(nnn) + "ANDRO");
 			if (newDir.mkdirs()) {
 				currentDir = newDir;
 			} else {
@@ -231,7 +240,7 @@ public class DCIMHelper {
 	 * structure.
 	 */
 	public static void convertToDCIM() {
-		File cameraDir = new File(dcimPath, "Camera");
+		File cameraDir = new File(dcimDirectory, "Camera");
 		File[] files = cameraDir.listFiles();
 		List<File> filesList = Arrays.asList(files);
 		Collections.sort(filesList, new Comparator<File>() {
